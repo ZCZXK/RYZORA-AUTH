@@ -42,11 +42,8 @@ app.use(
     secret: "ryzora_super_secret",
     resave: false,
     saveUninitialized: false,
-    proxy: true,
     cookie: {
-      secure: true,
-      httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 24
+      secure: false
     }
   })
 );
