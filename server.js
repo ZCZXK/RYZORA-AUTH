@@ -29,9 +29,12 @@ app.use(express.static("public"));
 
 app.use(
   session({
-    secret: "ryzora-secret",
+    secret: "ryzora_super_secret",
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
+    cookie: {
+      secure: false
+    }
   })
 );
 
@@ -60,11 +63,16 @@ app.get(
 );
 
 app.get("/logout", (req, res) => {
-  req.logout(() => {
+  req.logout(function(err) {
+    if (err) {
+      return next(err);
+    }
     res.redirect("/");
   });
 });
 
-app.listen(3000, () => {
-  console.log("Server running on port 3000");
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Running on port ${PORT}`);
 });
