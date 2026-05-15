@@ -7,8 +7,15 @@ const DiscordStrategy = require("passport-discord").Strategy;
 
 const app = express();
 
-passport.serializeUser((user, done) => done(null, user));
-passport.deserializeUser((obj, done) => done(null, obj));
+app.set("trust proxy", 1);
+
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
+
+passport.deserializeUser((obj, done) => {
+  done(null, obj);
+});
 
 passport.use(
   new DiscordStrategy(
@@ -18,13 +25,16 @@ passport.use(
       callbackURL: process.env.CALLBACK_URL,
       scope: ["identify"]
     },
-    (accessToken, refreshToken, profile, done) => {
-      process.nextTick(() => done(null, profile));
+    function(accessToken, refreshToken, profile, done) {
+      process.nextTick(function() {
+        return done(null, profile);
+      });
     }
   )
 );
 
 app.set("view engine", "ejs");
+
 app.use(express.static("public"));
 
 app.use(
@@ -32,8 +42,11 @@ app.use(
     secret: "ryzora_super_secret",
     resave: false,
     saveUninitialized: false,
+    proxy: true,
     cookie: {
-      secure: false
+      secure: true,
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24
     }
   })
 );
@@ -65,7 +78,7 @@ app.get(
 app.get("/logout", (req, res) => {
   req.logout(function(err) {
     if (err) {
-      return next(err);
+      console.log(err);
     }
     res.redirect("/");
   });
@@ -74,5 +87,5 @@ app.get("/logout", (req, res) => {
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-  console.log(`Running on port ${PORT}`);
+  console.log(`Ryzora running on port ${PORT}`);
 });
