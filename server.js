@@ -7,20 +7,14 @@ const DiscordStrategy = require("passport-discord").Strategy;
 
 const app = express();
 
-app.set("trust proxy", 1);
-
 app.use(express.static("public"));
-
 app.set("view engine", "ejs");
 
 app.use(
   session({
-    secret: "ryzora_secret_key",
+    secret: "ryzora_secret",
     resave: false,
-    saveUninitialized: false,
-    cookie: {
-      maxAge: 60000 * 60 * 24
-    }
+    saveUninitialized: false
   })
 );
 
@@ -44,7 +38,7 @@ passport.use(
       scope: ["identify"]
     },
     (accessToken, refreshToken, profile, done) => {
-      process.nextTick(() => done(null, profile));
+      return done(null, profile);
     }
   )
 );
@@ -55,23 +49,23 @@ app.get("/", (req, res) => {
   });
 });
 
-app.get("/login", passport.authenticate("discord"));
+app.get("/login",
+  passport.authenticate("discord")
+);
 
-app.get(
-  "/callback",
+app.get("/callback",
   passport.authenticate("discord", {
     failureRedirect: "/"
   }),
-  function(req, res) {
-    res.redirect("/");
+  (req, res) => {
+    req.session.save(() => {
+      res.redirect("/");
+    });
   }
 );
 
-app.get("/logout", function(req, res) {
-  req.logout(function(err) {
-    if (err) {
-      console.log(err);
-    }
+app.get("/logout", (req, res) => {
+  req.logout(() => {
     res.redirect("/");
   });
 });
@@ -79,5 +73,5 @@ app.get("/logout", function(req, res) {
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-  console.log(`Server running on ${PORT}`);
+  console.log(`Running on ${PORT}`);
 });
