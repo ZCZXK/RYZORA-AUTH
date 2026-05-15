@@ -1,1 +1,36 @@
+body{
+  background:#0f0f0f;
+  color:white;
+  font-family:sans-serif;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
 
+.container{
+  text-align:center;
+  background:#1a1a1a;
+  padding:40px;
+  border-radius:20px;
+  width:320px;
+  box-shadow:0 0 30px #5865f2;
+}
+
+.btn{
+  background:#5865f2;
+  padding:12px 25px;
+  color:white;
+  text-decoration:none;
+  border-radius:10px;
+  display:inline-block;
+}
+
+.avatar{
+  width:90px;
+  border-radius:50%;
+}
+
+.logout{
+  color:red;
+}
