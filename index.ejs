@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Ryzora Invite</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<div class="container">
+
+<h1>Ryzora Bot</h1>
+
+<% if (!user) { %>
+
+<a class="btn" href="/auth/discord">
+Login with Discord
+</a>
+
+<% } else { %>
+
+<img src="https://cdn.discordapp.com/avatars/<%= user.id %>/<%= user.avatar %>.png" class="avatar">
+
+<h2><%= user.username %></h2>
+
+<a class="btn invite"
+href="https://discord.com/oauth2/authorize?client_id=YOUR_BOT_ID&permissions=8&scope=bot">
+Invite Bot
+</a>
+
+<br><br>
+
+<a class="logout" href="/logout">Logout</a>
+
+<% } %>
+
+</div>
+
+</body>
+</html>
