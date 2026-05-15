@@ -1,55 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>RYZORA</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ryzora</title>
   <link rel="stylesheet" href="/style.css">
 </head>
 
 <body>
 
-<div class="bg"></div>
-
 <div class="card">
 
-  <!-- BOT LOGO -->
   <img 
-    src="https://cdn.discordapp.com/app-icons/YOUR_BOT_ID/YOUR_ICON.png"
-    class="logo"
-  >
+  src="https://cdn.discordapp.com/embed/avatars/0.png"
+  class="logo">
 
-  <h1>RYZORA</h1>
+  <h1>Ryzora</h1>
 
-  <p class="desc">
-    Professional Discord moderation and utility bot.
-  </p>
+  <% if (user) { %>
 
-  <% if (!user) { %>
+    <img
+    src="https://cdn.discordapp.com/avatars/<%= user.id %>/<%= user.avatar %>.png"
+    class="avatar">
 
-    <!-- LOGIN BUTTON -->
-    <a class="login-btn" href="/login">
-      Login with Discord
+    <h2><%= user.username %></h2>
+
+    <a
+    class="invite-btn"
+    href="https://discord.com/oauth2/authorize?client_id=1489882067239047168&permissions=8&scope=bot"
+    target="_blank">
+    Invite Bot
+    </a>
+
+    <a class="logout" href="/logout">
+    Logout
     </a>
 
   <% } else { %>
 
-    <!-- USER INFO -->
-    <img 
-      src="https://cdn.discordapp.com/avatars/<%= user.id %>/<%= user.avatar %>.png"
-      class="avatar"
-    >
-
-    <h2><%= user.username %></h2>
-
-    <!-- INVITE BUTTON -->
-    <a class="invite-btn"
-      href="https://discord.com/oauth2/authorize?client_id=1489882067239047168&permissions=8&integration_type=0&scope=bot">
-      Invite Ryzora
-    </a>
-
-    <a class="logout" href="/logout">
-      Logout
+    <a class="login-btn" href="/login">
+    Login With Discord
     </a>
 
   <% } %>
